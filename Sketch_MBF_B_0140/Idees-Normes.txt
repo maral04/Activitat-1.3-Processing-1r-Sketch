@@ -1,0 +1,3 @@
+Al fer click dret la Jelly rota, per a poder pasar per llocs més estrets.
+La sal fa reduir el tamany en un %. I resta 1 a la puntuació de sucre.
+El sucre fa pujar el tamany en un %. I suma 1 a la puntuació de sucre.

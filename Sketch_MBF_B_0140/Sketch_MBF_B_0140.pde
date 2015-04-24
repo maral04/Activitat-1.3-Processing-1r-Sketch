@@ -3,6 +3,7 @@ PFont font;                      // Declarem la font.
 PImage[] img = new PImage[6];     // Declarem l'array d'imatge.
 var firsttime = true;
 var sucres = 0;
+var sucrepillat = false;
 
 void setup() {
   size(1024, 480);
@@ -48,16 +49,19 @@ void draw() {
   // 2-Limits laberint interior.
   limitsInteriors();
 
-  /*
+
   // 3-Introducció del sucre i sal a recollir.
-   image(img[4], 35, 25);
+  if (sucrepillat == false) {
+    image(img[1], 240, 133);
+  }
+  /*image(img[4], 35, 25);
    image(img[4], 70, 25);
    image(img[4], 25, 125);
    image(img[1], 240, 133);
    image(img[1], 450, 110);
    image(img[1], 820, 25);
-   image(img[1], 705, 130);
-   */
+   image(img[1], 705, 130);*/
+
 
   // 4-Creació de la jelly i crida dels seus metodes.
   jelly.move();
@@ -158,6 +162,7 @@ class Jelly {
     textFont(font, 22);                   // Especificar la font a ser usada. 
     fill(165);                            // Especificar font color.
     text(mouseX+" "+mouseY, 25, 395);     // Mostra Text amb Coordenades.
+    text("Dificultat: Pràctica.", 25, 425);
     //text("Sucres: "+sucres, 25, 425);            // Mostrar Text amb puntuació.         
     text("Clicks: "+releases, 25, 455);   // Mostrar Text amb clicks.
   }
@@ -179,6 +184,9 @@ class Jelly {
     // Mentre està clicada
     if (moving) {
       background(235, 235, 235);
+      if (sucrepillat == false) {
+        image(img[1], 240, 133);
+      }
       limitsExteriors();
       limitsInteriors();
       caixaText();
@@ -190,6 +198,31 @@ class Jelly {
       //imageMode(CENTER);
       //imageMode(CORNERS);
       drawjelly();
+    
+      // Colisió amb un sucre.
+      if(sucrepillat == false){
+        if (x >= 225 
+        && y <= 175 
+        && x <= 285
+        && y >= 120
+        
+        ) {
+          sucrepillat = true;
+            //text("Has recollit un Sucre! ", 540, 375);
+            //fill(235, 235, 235);
+            //rect(520, 345, 185, 45);
+        } else {
+          fill(235, 235, 235);
+          rect(520, 345, 185, 45);
+        }
+      }
+
+      if(sucrepillat == true){
+        text("Has recollit un Sucre! ", 540, 375);
+        text("I ja has Guanyat! ", 540, 395);
+        
+      }
+
 
       // Colisió amb les parets exteriors.
       if (y < dist(0, 0, 0, 21) 
@@ -202,6 +235,8 @@ class Jelly {
         fill(235, 235, 235);
         rect(330, 345, 185, 45);
       }
+      
+      
       // Si hi ha colisió d'img[0] amb img[1] aumenta el tamany de Jelly. Desapareix img[1].
       // Si hi ha colisió d'img[0] amb img[4] redueix el tamany de Jelly. Desapareix img[4].
       /*if((x > dist(450, 110, 0, 0) && x < dist(480, 140, 0, 0))){
